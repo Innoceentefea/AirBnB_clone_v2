@@ -221,21 +221,18 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """ Shows all objects, or all objects of a class"""
-        objects, my_list = {}, []
         if not line:
-            objects = storage.all()
-            for key in objects:
-                my_list.append(objects[key])
-            print(my_list)
+            o = storage.all()
+            print([o[k].__str__() for k in o])
             return
         try:
             args = line.split(" ")
-            if args[0] not in self.classes:
+            if args[0] not in self.__classes:
                 raise NameError()
-            objects = storage.all(args[0])
-            for k, v in objects.items():
-                my_list.append(v)
-            print(my_list)
+
+            o = storage.all(eval(args[0]))
+            print([o[k].__str__() for k in o])
+
         except NameError:
             print("** class doesn't exist **")
 
